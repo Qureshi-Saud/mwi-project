@@ -57,7 +57,7 @@ const Home = () => {
   return (
     <div className="pt-16">
       {/* HERO SECTION */}
-      <section className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-20 py-12 md:py-20 gap-8">
+      <section className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-20 py-12 md:py-20 gap-6">
         <div className="lg:w-1/2 text-center lg:text-left space-y-6">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
             Engineering the Future with Excellence
@@ -93,7 +93,7 @@ const Home = () => {
       </section>
 
       {/* ABOUT SECTION */}
-      <section className="flex flex-col md:flex-row items-center gap-10 px-6 md:px-20 py-16 bg-gray-50">
+      <section className="flex flex-col md:flex-row items-center gap-8 px-6 md:px-20 py-16 bg-gray-50">
         <div className="md:w-1/2">
           <img
             src={aboutImg}
@@ -106,7 +106,7 @@ const Home = () => {
             About Microwell Industries
           </h2>
           <p className="text-gray-600 text-lg">
-            Decades of excellence in precision manufacturing—empowering industries with reliable, innovative solutions.
+            Microwell Industries is a pioneer in the manufacturing of Mechanical Seals, built with top-grade materials in our modern facility. Our professional team ensures unmatched product quality and reliable after-sales support.
           </p>
           <button
             onClick={() => navigate("/about")}
@@ -176,7 +176,7 @@ const Home = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-14 text-gray-800">
           Fields of Expertise
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
               img: expert1,
