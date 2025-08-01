@@ -57,7 +57,7 @@ const Home = () => {
   return (
     <div className="pt-4">
       {/* HERO SECTION */}
-      <section className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-20 py-16 gap-6">
+      <section className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-20 py-6 gap-0">
         <motion.div
           className="lg:w-1/2 text-center lg:text-left space-y-6"
           initial={{ opacity: 0, y: 40 }}
@@ -105,45 +105,54 @@ const Home = () => {
       </section>
 
       {/* ABOUT SECTION */}
-      <section className="flex flex-col md:flex-row items-center gap-6 px-6 md:px-20 py-16 bg-gray-50">
+      <section className="px-6 md:px-20 py-6 bg-gray-100">
         <motion.div
-          className="md:w-1/2"
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          className="flex flex-col md:flex-row items-center gap-8 bg-gray-200 rounded-3xl p-8 shadow-lg"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
         >
-          <img
-            src={aboutImg}
-            alt="About Us"
-            className="rounded-2xl shadow-lg object-cover w-[80%] md:w-[70%] lg:w-[60%] mx-auto"
-          />
-        </motion.div>
-        <motion.div
-          className="md:w-1/2 space-y-4 text-center md:text-left"
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-800">
-            About <span className="text-indigo-600">Microwell Industries</span>
-          </h2>
-          <p className="text-gray-600 text-lg font-light">
-            Microwell Industries is a pioneer in the manufacturing of Mechanical Seals, built with top-grade materials in our modern facility. Our professional team ensures unmatched product quality and reliable after-sales support.
-          </p>
-          <button
-            onClick={() => navigate("/about")}
-            className="bg-indigo-600 text-white px-5 py-3 rounded-xl hover:bg-indigo-700 transition hover:scale-105 duration-300 font-medium shadow"
+          <motion.div
+            className="w-full md:w-1/2 rounded-3xl overflow-hidden shadow-md h-96 md:h-auto"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
           >
-            More Info
-          </button>
+            <img
+              src={aboutImg}
+              alt="About Us"
+              className="w-full h-full object-cover rounded-3xl"
+            />
+          </motion.div>
+
+          <motion.div
+            className="md:w-1/2 space-y-4 text-center md:text-left"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-800">
+              About <span className="text-indigo-600">Microwell Industries</span>
+            </h2>
+            <p className="text-gray-700 text-lg font-light">
+              Microwell Industries is a pioneer in the manufacturing of Mechanical Seals, built with top-grade materials in our modern facility. Our professional team ensures unmatched product quality and reliable after-sales support.
+            </p>
+            <button
+              onClick={() => navigate("/about")}
+              className="bg-indigo-600 text-white px-5 py-3 rounded-xl hover:bg-indigo-700 transition hover:scale-105 duration-300 font-medium shadow"
+            >
+              More Info
+            </button>
+          </motion.div>
         </motion.div>
       </section>
 
       {/* FULL WIDTH IMAGE */}
       <motion.div
-        className="w-full my-14 px-6 md:px-0"
+        className="w-full my-6 px-6 md:px-0"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -163,7 +172,7 @@ const Home = () => {
 
       {/* GALLERY SECTION */}
       <motion.section
-        className="px-6 md:px-20 py-16 bg-white relative"
+        className="px-6 md:px-20 py-6 bg-white relative"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -208,7 +217,7 @@ const Home = () => {
       </motion.section>
 
       {/* FIELDS OF EXPERTISE */}
-      <section className="px-6 md:px-20 py-16 bg-gray-50">
+      <section className="px-6 md:px-20 py-6 bg-gray-50">
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-gray-800">
           Fields of <span className="text-indigo-600">Expertise</span>
         </h2>
