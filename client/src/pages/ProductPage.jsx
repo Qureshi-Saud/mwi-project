@@ -8,7 +8,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/products/${id}`)
+      .get(`https://microwell.onrender.com/api/products/${id}`)
       .then((res) => setProduct(res.data));
   }, [id]);
 
