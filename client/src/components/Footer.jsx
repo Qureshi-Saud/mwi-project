@@ -16,11 +16,11 @@ const Footer = () => {
             B-3, Pandit Jawaharlal Nehru Rd, Patel Park, Vakola,<br />
             Santacruz East, Mumbai, Maharashtra 400055
           </p>
-          <p className="flex items-center gap-2 text-sm mb-2 text-gray-1000">
+          <p className="flex items-center gap-2 text-base mb-2 text-gray-1000">
             <FaPhoneAlt className="text-blue-300" />
             +91 77150 68534 / +91 77150 68533
           </p>
-          <p className="flex items-center gap-2 text-sm text-gray-1000">
+          <p className="flex items-center gap-2 text-base text-gray-1000">
             <FaEnvelope className="text-blue-300" />
             only4rizvi@gmail.com
           </p>
@@ -63,7 +63,7 @@ const Footer = () => {
         {/* Column 4: Quick Links */}
         <div>
           <h3 className="text-lg font-bold text-blue-500 mb-3">Quick Links</h3>
-          <ul className="space-y-2 text-sm text-gray-1000">
+          <ul className="space-y-2 text-base text-gray-1000">
             <li><Link to="/" className="hover:text-blue-300">Home</Link></li>
             <li><Link to="/about" className="hover:text-blue-300">About</Link></li>
             <li><Link to="/products" className="hover:text-blue-300">Products</Link></li>
