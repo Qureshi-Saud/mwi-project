@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import about from "../assets/about.png";
+import { aboutImg } from "../assets";
 import { FaCheckCircle } from "react-icons/fa";
 
-const fadeUp = {
+export const fadeUp = {
   hidden: { opacity: 0, y: 50 },
   visible: (i = 1) => ({
     opacity: 1,
@@ -24,7 +24,7 @@ const About = () => {
         className="bg-blue-900 text-white text-center py-20 px-6"
       >
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
-          About <span className="text-yellow-400">Microwell Industries</span>
+          About <span className="text-yellow-400">Us</span>
         </h1>
         <p className="text-xl opacity-90">Discover who we are, what we build, and why we lead.</p>
       </motion.section>
@@ -37,7 +37,7 @@ const About = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <img src={about} alt="About Microwell" className="w-full rounded-3xl shadow-2xl" />
+          <img src={aboutImg} alt="About Microwell" className="w-full rounded-3xl shadow-2xl" />
         </motion.div>
 
         <motion.div

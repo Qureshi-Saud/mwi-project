@@ -1,7 +1,6 @@
 import React from "react";
-import service from "../assets/service.png";
-import service1 from "../assets/service1.png";
-import service2 from "../assets/service2.png";
+import {service,service1,service2} from "../assets";
+
 
 function Services() {
   const services = [
@@ -23,10 +22,16 @@ function Services() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16 bg-gray-50">
-      <h1 className="text-4xl md:text-5xl font-bold text-center mb-12 text-blue-700">
-        Our Services
-      </h1>
+    <div className="bg-white text-gray-800 font-sans">
+      <section className="w-full bg-blue-900 text-white text-center py-20 px-6">
+    <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+      Our Services
+    </h1>
+    <p className="text-center text-white max-w-2xl mx-auto">
+      We believe in client satisfaction through best service.
+    </p>
+  </section>
+
       <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8">
         {services.map((service, index) => (
           <div

@@ -11,7 +11,7 @@ const Footer = () => {
         {/* Column 1: Address, Mobile, Email */}
         <div>
           <h3 className="text-lg font-bold text-blue-500 mb-3">Contact Info</h3>
-          <p className="flex items-start gap-2 text-sm mb-2 text-gray-1000">
+          <p className="flex items-start gap-2 text-base mb-2 text-gray-1000">
             <FaMapMarkerAlt className="mt-1 text-blue-300" />
             B-3, Pandit Jawaharlal Nehru Rd, Patel Park, Vakola,<br />
             Santacruz East, Mumbai, Maharashtra 400055
@@ -43,8 +43,8 @@ const Footer = () => {
 
         {/* Column 3: Logo & Social */}
         <div>
-          <img src={logo} alt="Microwell Logo" className="w-52 mb-4 mt-4" />
-          <h3 className="text-lg font-bold text-blue-500 mb-2">Contact Us</h3>
+          <img src={logo} alt="Microwell Logo" className="w-52 mb-4 mt-2" />
+          <h3 className="text-lg font-bold text-blue-500 mb-2 mt-4">Contact Us</h3>
           <div className="flex space-x-4 text-xl text-gray-800">
             <a
               href="https://www.linkedin.com/company/microwell-industries"

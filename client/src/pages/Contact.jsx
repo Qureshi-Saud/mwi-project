@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaPhone, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
+import { fadeUp } from "./About";
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -84,18 +85,20 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-6 flex flex-col items-center">
+    <div className="bg-white text-gray-800 font-sans">
+      {/* Hero Section */}
       <motion.section
-        className="w-full bg-blue-950 from-blue-900 to-sky-700 text-white text-center py-20 px-6 mb-10"
-        initial={{ opacity: 0, y: -50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
+        variants={fadeUp}
+        className="bg-blue-900 text-white text-center py-20 px-6"
       >
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
           Contact Us
         </h1>
       </motion.section>
+
 
       <motion.div
         className="w-full max-w-7xl flex flex-col md:flex-row gap-4 items-start justify-center"

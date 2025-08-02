@@ -18,6 +18,10 @@ import expert2 from "./expert2.png";
 import expert3 from "./expert3.png";
 import logo from "./logo.png";
 import logo1 from "./logo1.png";
+import service from "./service.png";
+import service1 from "./service1.png";
+import service2 from "./service2.png";
+
 
 
 export {
@@ -41,4 +45,7 @@ export {
   expert1,
   expert2,
   expert3,
+  service,
+  service1,
+  service2
 };
