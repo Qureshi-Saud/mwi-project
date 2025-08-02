@@ -92,7 +92,7 @@ const Contact = () => {
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
-        className="bg-blue-900 text-white text-center py-20 px-6"
+        className="bg-blue-900 text-white text-center py-20 px-6 mb-20"
       >
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
           Contact Us
