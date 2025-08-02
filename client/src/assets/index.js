@@ -21,6 +21,7 @@ import logo1 from "./logo1.png";
 import service from "./service.png";
 import service1 from "./service1.png";
 import service2 from "./service2.png";
+import Seal from "./Seal.png";
 
 
 
@@ -47,5 +48,6 @@ export {
   expert3,
   service,
   service1,
-  service2
+  service2,
+  Seal
 };
