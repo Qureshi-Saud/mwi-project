@@ -92,47 +92,55 @@ const Contact = () => {
         whileInView="visible"
         viewport={{ once: true }}
         variants={fadeUp}
-        className="bg-blue-900 text-white text-center py-20 px-6 mb-20"
+        className="bg-blue-900 text-white text-center py-20 px-6 mb-12"
       >
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
           Contact Us
         </h1>
       </motion.section>
 
-
       <motion.div
-        className="w-full max-w-7xl flex flex-col md:flex-row gap-4 items-start justify-center"
+        className="flex flex-wrap justify-center gap-6 px-4 w-full max-w-7xl mx-auto mb-12"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
+        {/* Left Info Section */}
         <motion.div
-          className="w-full md:w-1/2 bg-white/60 backdrop-blur-md p-8 rounded-xl shadow-lg space-y-4"
+          className="w-full md:w-[48%] bg-white/60 backdrop-blur-md p-8 rounded-xl shadow-lg space-y-4"
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          {/* Left Info Section content goes here */}
           <h2 className="text-3xl font-bold text-gray-700">
             Get In <span className="text-blue-700">Touch</span>
           </h2>
-
           <p className="text-gray-600">We're here to help you…</p>
 
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-gray-700">
               <FaMapMarkerAlt className="text-blue-600" />
-              <span><strong>Main Branch:</strong> B-3, Pandit Jawaharlal Nehru Rd, Patel Park, Vakola, Santacruz East, Mumbai, MH 400055</span>
+              <span>
+                <strong>Main Branch:</strong> B-3, Pandit Jawaharlal Nehru Rd,
+                Patel Park, Vakola, Santacruz East, Mumbai, MH 400055
+              </span>
             </div>
             <div className="flex items-center gap-2 text-gray-700">
               <FaMapMarkerAlt className="text-blue-600" />
-              <span><strong>Branch 1:</strong> 4RVP+4P8, Adarsh Nagar, Jogeshwari West, Mumbai, Maharashtra 400102</span>
+              <span>
+                <strong>Branch 1:</strong> 4RVP+4P8, Adarsh Nagar, Jogeshwari
+                West, Mumbai, Maharashtra 400102
+              </span>
             </div>
             <div className="flex items-center gap-2 text-gray-700">
               <FaMapMarkerAlt className="text-blue-600" />
-              <span><strong>Branch 2:</strong> Rizvi Educational Complex, Off Carter Rd, Rizvi Complex, Chuim, Bandra West, Mumbai, Maharashtra 400050</span>
+              <span>
+                <strong>Branch 2:</strong> Rizvi Educational Complex, Off Carter
+                Rd, Rizvi Complex, Chuim, Bandra West, Mumbai, Maharashtra
+                400050
+              </span>
             </div>
             <div className="flex items-center gap-2 text-gray-700">
               <FaPhone className="text-green-600" />
@@ -151,21 +159,24 @@ const Contact = () => {
             allowFullScreen=""
             loading="lazy"
           ></iframe>
-        
         </motion.div>
 
+        {/* Right Form Section */}
         <motion.form
           onSubmit={handleSubmit}
-          className="w-full md:w-1/2 bg-white/70 backdrop-blur-md rounded-xl shadow-xl p-8 space-y-6"
+          className="w-full md:w-[48%] bg-white/70 backdrop-blur-md rounded-xl shadow-xl p-8 space-y-6"
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          {/* Right Form Section content goes here */}
           <div className="text-center mb-6">
-            <h2 className="text-xl md:text-2xl font-medium text-gray-700">Have any questions?</h2>
-            <h2 className="text-x md:text-xl font-medium text-blue-700">Send us a message.</h2>
+            <h2 className="text-xl md:text-2xl font-medium text-gray-700">
+              Have any questions?
+            </h2>
+            <h2 className="text-x md:text-xl font-medium text-blue-700">
+              Send us a message.
+            </h2>
           </div>
 
           {success && (
@@ -176,7 +187,9 @@ const Contact = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-700 font-medium">First Name<span className="text-red-600">*</span></label>
+              <label className="block text-gray-700 font-medium">
+                First Name<span className="text-red-600">*</span>
+              </label>
               <input
                 type="text"
                 name="firstName"
@@ -185,10 +198,14 @@ const Contact = () => {
                 className="w-full border border-gray-300 rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="First Name"
               />
-              {errors.firstName && <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>}
+              {errors.firstName && (
+                <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>
+              )}
             </div>
             <div>
-              <label className="block text-gray-700 font-medium">Last Name<span className="text-red-600">*</span></label>
+              <label className="block text-gray-700 font-medium">
+                Last Name<span className="text-red-600">*</span>
+              </label>
               <input
                 type="text"
                 name="lastName"
@@ -197,12 +214,16 @@ const Contact = () => {
                 className="w-full border border-gray-300 rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
                 placeholder="Last Name"
               />
-              {errors.lastName && <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>}
+              {errors.lastName && (
+                <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>
+              )}
             </div>
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium">Email<span className="text-red-600">*</span></label>
+            <label className="block text-gray-700 font-medium">
+              Email<span className="text-red-600">*</span>
+            </label>
             <input
               type="email"
               name="email"
@@ -211,11 +232,15 @@ const Contact = () => {
               className="w-full border border-gray-300 rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="your@email.com"
             />
-            {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1">Phone<span className="text-red-600">*</span></label>
+            <label className="block text-gray-700 font-medium mb-1">
+              Phone<span className="text-red-600">*</span>
+            </label>
             <div className="flex gap-2">
               <select
                 name="countryCode"
@@ -237,11 +262,15 @@ const Contact = () => {
                 placeholder="1234567890"
               />
             </div>
-            {errors.phone && <p className="text-red-600 text-sm mt-1">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium">Company Name</label>
+            <label className="block text-gray-700 font-medium">
+              Company Name
+            </label>
             <input
               type="text"
               name="companyName"
@@ -253,7 +282,9 @@ const Contact = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium">Purpose<span className="text-red-600">*</span></label>
+            <label className="block text-gray-700 font-medium">
+              Purpose<span className="text-red-600">*</span>
+            </label>
             <input
               type="text"
               name="subject"
@@ -262,11 +293,15 @@ const Contact = () => {
               className="w-full border border-gray-300 rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Purpose of your message"
             />
-            {errors.subject && <p className="text-red-600 text-sm mt-1">{errors.subject}</p>}
+            {errors.subject && (
+              <p className="text-red-600 text-sm mt-1">{errors.subject}</p>
+            )}
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium">Message<span className="text-red-600">*</span></label>
+            <label className="block text-gray-700 font-medium">
+              Message<span className="text-red-600">*</span>
+            </label>
             <textarea
               name="message"
               value={form.message}
@@ -275,34 +310,34 @@ const Contact = () => {
               className="w-full border border-gray-300 rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
               placeholder="Write your message here..."
             />
-            {errors.message && <p className="text-red-600 text-sm mt-1">{errors.message}</p>}
+            {errors.message && (
+              <p className="text-red-600 text-sm mt-1">{errors.message}</p>
+            )}
           </div>
 
           <button
-  type="submit"
-  disabled={
-    !form.firstName ||
-    !form.lastName ||
-    !form.email ||
-    !form.phone ||
-    !form.subject ||
-    !form.message
-  }
-  className={`w-full font-semibold py-3 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105 ${
-    !form.firstName ||
-    !form.lastName ||
-    !form.email ||
-    !form.phone ||
-    !form.subject ||
-    !form.message
-      ? "bg-gray-400 cursor-not-allowed"
-      : "bg-blue-600 hover:from-blue-700 hover:to-purple-700 text-white"
-  }`}
->
-  Send Message
-</button>
-
-        
+            type="submit"
+            disabled={
+              !form.firstName ||
+              !form.lastName ||
+              !form.email ||
+              !form.phone ||
+              !form.subject ||
+              !form.message
+            }
+            className={`w-full font-semibold py-3 px-4 rounded-lg shadow-md transition duration-300 transform hover:scale-105 ${
+              !form.firstName ||
+              !form.lastName ||
+              !form.email ||
+              !form.phone ||
+              !form.subject ||
+              !form.message
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:from-blue-700 hover:to-purple-700 text-white"
+            }`}
+          >
+            Send Message
+          </button>
         </motion.form>
       </motion.div>
     </div>
