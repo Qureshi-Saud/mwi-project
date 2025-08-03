@@ -15,9 +15,29 @@ import {
   FaCheck,
 } from "react-icons/fa";
 
-const fadeIn = {
+// Animation Variants
+const container = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0 },
+};
+
+const slideFromLeft = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0 },
+};
+
+const slideFromRight = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { opacity: 1, x: 0 },
 };
 
 function Services() {
@@ -53,23 +73,43 @@ function Services() {
 
   return (
     <div className="bg-white text-gray-800 font-sans">
-      {/* Section Header */}
-      <section className="w-full bg-blue-900 text-white text-center py-20 px-4 md:px-6 mb-20">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
-        <p className="max-w-2xl mx-auto">
+      {/* Section Header with Animation */}
+      <motion.section
+        className="w-full bg-blue-900 text-white text-center py-20 px-4 md:px-6 mb-20"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <motion.h1
+          variants={fadeInUp}
+          className="text-4xl md:text-5xl font-bold mb-4"
+        >
+          Our Services
+        </motion.h1>
+
+        <motion.p
+          variants={fadeInUp}
+          className="max-w-2xl mx-auto text-lg md:text-xl"
+          transition={{ delay: 0.2 }}
+        >
           We believe in client satisfaction through best service.
-        </p>
-      </section>
+        </motion.p>
+      </motion.section>
 
       {/* Service Cards */}
-      <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 px-4 md:px-6 max-w-screen-xl mx-auto">
+      <motion.div
+        className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 px-4 md:px-6 max-w-screen-xl mx-auto"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
         {services.map((service, index) => (
           <motion.div
             key={index}
-            variants={fadeIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
+            variants={fadeInUp}
+            whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.6, delay: index * 0.2 }}
             className="bg-white rounded-2xl shadow-md hover:shadow-2xl hover:border-blue-400 hover:border-2 transition duration-300 text-center p-6"
           >
@@ -84,20 +124,22 @@ function Services() {
             <p className="text-gray-600">{service.description}</p>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Seal and Side Services */}
       <div className="flex flex-wrap justify-center items-center px-4 md:px-10 py-20 gap-10 bg-gray-50 max-w-screen-xl mx-auto">
         {/* Left Column */}
-        <div className="flex flex-col gap-8 items-center text-center">
+        <motion.div
+          className="flex flex-col gap-8 items-center text-center"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {leftItems.map((item, index) => (
             <motion.div
               key={index}
-              variants={fadeIn}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
+              variants={slideFromLeft}
               className="group flex flex-col items-center gap-3 text-xl font-semibold uppercase"
             >
               <span className="text-4xl">{item.icon}</span>
@@ -106,14 +148,15 @@ function Services() {
               </span>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Center Image */}
         <motion.div
-          variants={fadeIn}
+          variants={fadeInUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
+          whileHover={{ scale: 1.05, rotate: 1 }}
           transition={{ duration: 0.6 }}
           className="relative"
         >
@@ -127,15 +170,17 @@ function Services() {
         </motion.div>
 
         {/* Right Column */}
-        <div className="flex flex-col gap-8 items-center text-center">
+        <motion.div
+          className="flex flex-col gap-8 items-center text-center"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {rightItems.map((item, index) => (
             <motion.div
               key={index}
-              variants={fadeIn}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
+              variants={slideFromRight}
               className="group flex flex-col items-center gap-3 text-xl font-semibold uppercase"
             >
               <span className="text-4xl">{item.icon}</span>
@@ -144,7 +189,7 @@ function Services() {
               </span>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

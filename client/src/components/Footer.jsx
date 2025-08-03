@@ -1,14 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaLinkedinIn } from "react-icons/fa";
+import {
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaLinkedinIn,
+} from "react-icons/fa";
 import { logo } from "../assets";
+import { motion } from "framer-motion";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+};
 
 const Footer = () => {
   return (
-    <footer className="bg-[#E6EBF1] text-black pt-10 pb-6">
-
+    <motion.footer
+      variants={fadeIn}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+      className="bg-[#E6EBF1] text-black pt-10 pb-6"
+    >
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Column 1: Address, Mobile, Email */}
+        {/* Column 1: Contact Info */}
         <div>
           <h3 className="text-lg font-bold text-blue-500 mb-3">Contact Info</h3>
           <p className="flex items-start gap-2 text-base mb-2 text-gray-1000">
@@ -46,17 +62,20 @@ const Footer = () => {
           <img src={logo} alt="Microwell Logo" className="w-52 mb-4 mt-2" />
           <h3 className="text-lg font-bold text-blue-500 mb-2 mt-4">Contact Us</h3>
           <div className="flex space-x-4 text-xl text-gray-800">
-            <a
+            <motion.a
+              whileHover={{ scale: 1.2, color: "#3b82f6" }}
               href="https://www.linkedin.com/company/microwell-industries"
-              className="hover:text-blue-400"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaLinkedinIn />
-            </a>
-            <a href="mailto:only4rizvi@gmail.com" className="hover:text-blue-400">
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.2, color: "#3b82f6" }}
+              href="mailto:only4rizvi@gmail.com"
+            >
               <FaEnvelope />
-            </a>
+            </motion.a>
           </div>
         </div>
 
@@ -64,11 +83,17 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-bold text-blue-500 mb-3">Quick Links</h3>
           <ul className="space-y-2 text-base text-gray-1000">
-            <li><Link to="/" className="hover:text-blue-300">Home</Link></li>
-            <li><Link to="/about" className="hover:text-blue-300">About</Link></li>
-            <li><Link to="/products" className="hover:text-blue-300">Products</Link></li>
-            <li><Link to="/services" className="hover:text-blue-300">Services</Link></li>
-            <li><Link to="/contact" className="hover:text-blue-300">Contact</Link></li>
+            {["Home", "About", "Products", "Services", "Contact"].map((item, idx) => (
+              <motion.li
+                key={idx}
+                whileHover={{ x: 5, color: "#60a5fa" }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link to={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}>
+                  {item}
+                </Link>
+              </motion.li>
+            ))}
           </ul>
         </div>
       </div>
@@ -77,7 +102,7 @@ const Footer = () => {
       <div className="text-center text-sm text-gray-900 mt-8 border-t border-gray-700 pt-4">
         © {new Date().getFullYear()} Microwell Industries. All rights reserved.
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 
