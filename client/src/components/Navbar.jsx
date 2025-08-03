@@ -24,7 +24,8 @@ function Navbar() {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 bg-[#E6EBF1] shadow-md z-50"
+      className="fixed top-0 left-0 right-0 bg-grey shadow-md z-50"
+      // [#E6EBF1]
     >
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
@@ -91,7 +92,7 @@ function Navbar() {
 
             {/* Sidebar */}
             <motion.div
-              className="fixed top-0 left-0 w-[75%] max-w-xs h-full bg-grey text-black z-50 p-6 flex flex-col gap-6"
+              className="fixed top-0 left-0 w-[75%] max-w-xs h-full bg-grey text-white z-50 p-6 flex flex-col gap-6"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -115,7 +116,7 @@ function Navbar() {
                     to={to}
                     onClick={closeMenu}
                     className={`text-lg font-semibold transition-colors ${
-                      isActive ? "text-blue-300" : "hover:text-white"
+                      isActive ? "text-blue-400" : "hover:text-white"
                     }`}
                   >
                     {label}
