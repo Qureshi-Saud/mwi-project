@@ -24,8 +24,7 @@ function Navbar() {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 bg-grey shadow-md z-50"
-      // [#E6EBF1]
+      className="absolute top-0 left-0 right-0 bg-[#E6EBF1] shadow-md z-50"
     >
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
