@@ -46,26 +46,22 @@ function Dashboard() {
               key={product._id}
               className="border rounded-lg shadow-md p-4 relative bg-white"
             >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-48 object-cover rounded mb-4"
-              />
+              {/* Only 1st image shown */}
+              {product.image && (
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-cover rounded mb-4"
+                />
+              )}
+
+              {/* Name & Type only */}
               <h2 className="text-xl font-semibold mb-1">{product.name}</h2>
               <span className="inline-block text-xs text-white bg-blue-600 rounded px-2 py-0.5 mb-2">
                 {product.type}
               </span>
-              <div className="text-sm text-gray-700 space-y-1">
-                <p>
-                  <strong>Materials:</strong> {product.materials}
-                </p>
-                <p>
-                  <strong>Operating Limits:</strong> {product.operatingLimits}
-                </p>
-                <p>
-                  <strong>Application:</strong> {product.application}
-                </p>
-              </div>
+
+              {/* Delete button */}
               <button
                 onClick={() => handleDelete(product._id)}
                 className="absolute top-2 right-2 bg-red-500 text-white rounded px-2 py-1 text-xs hover:bg-red-600"

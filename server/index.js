@@ -4,12 +4,15 @@ import cors from "cors";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import enquiryRoutes from "./routes/enquiryRoutes.js";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/api/enquiries", enquiryRoutes);
+
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,

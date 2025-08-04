@@ -13,14 +13,31 @@ cloudinary.config({
 });
 
 const storage = multer.memoryStorage();
-export const upload = multer({ storage });
+export const upload = multer({ storage }).fields([
+  { name: "image", maxCount: 1 },
+  { name: "image2", maxCount: 1 },
+]);
 
 export const uploadProduct = async (req, res) => {
   try {
-    const { name, type, materials, operatingLimits, application } = req.body;
+    const {
+      name,
+      type,
+      application,
+      sealRingFaces,
+      seatFaces,
+      elastomer,
+      moc,
+      bellowMoc,
+      endFittingMoc,
+      shaftDia,
+      pressure,
+      temperature,
+      speed,
+    } = req.body;
 
-    const streamUpload = () => {
-      return new Promise((resolve, reject) => {
+    const uploadToCloudinary = (fileBuffer) =>
+      new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
           { folder: "microwell_products" },
           (error, result) => {
@@ -28,19 +45,36 @@ export const uploadProduct = async (req, res) => {
             else reject(error);
           }
         );
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
+        streamifier.createReadStream(fileBuffer).pipe(stream);
       });
-    };
 
-    const result = await streamUpload();
+    const image1Url = await uploadToCloudinary(req.files.image[0].buffer);
+    const image2Url = req.files.image2
+      ? await uploadToCloudinary(req.files.image2[0].buffer)
+      : null;
 
     const product = new Product({
       name,
       type,
-      materials,
-      operatingLimits,
       application,
-      image: result.secure_url,
+      image: image1Url.secure_url,
+      image2: image2Url?.secure_url || "",
+
+      materials: {
+        sealRingFaces,
+        seatFaces,
+        elastomer,
+        moc,
+        bellowMoc,
+        endFittingMoc,
+      },
+
+      operatingLimits: {
+        shaftDia,
+        pressure,
+        temperature,
+        speed,
+      },
     });
 
     const saved = await product.save();

@@ -30,6 +30,7 @@ function Navbar() {
         <div className={`${ isOpen ? "block" : "hidden" } absolute md:static top-full left-0 w-full md:w-auto bg-white md:flex md:items-center space-y-4 md:space-y-0 md:space-x-4 px-4 md:px-0 py-4 md:py-0 shadow md:shadow-none`}>
           <Link to="/dashboard" onClick={closeMenu} className="block hover:text-blue-600">Dashboard</Link>
           <Link to="/upload" onClick={closeMenu} className="block hover:text-blue-600">Upload Product</Link>
+          <Link to="/admin/enquiries" onClick={closeMenu} className="block hover:text-blue-600">Inbox</Link>
           <button onClick={handleLogout} className="block hover:text-red-500">Logout</button>
         </div>
       </div>
