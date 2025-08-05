@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { MailOpen, Trash2, Eye, Search } from "lucide-react";
@@ -8,6 +8,8 @@ function Inbox() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedIds, setSelectedIds] = useState([]);
   const [filter, setFilter] = useState("all");
+  const [selectMenuOpen, setSelectMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -68,9 +70,7 @@ function Inbox() {
 
   const toggleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id)
-        ? prev.filter((item) => item !== id)
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
@@ -80,6 +80,32 @@ function Inbox() {
     } else {
       setSelectedIds(filteredEnquiries.map((e) => e._id));
     }
+  };
+
+  const handleSelectionMenuClick = (option) => {
+    switch (option) {
+      case "all":
+        setSelectedIds(filteredEnquiries.map((e) => e._id));
+        break;
+      case "none":
+        setSelectedIds([]);
+        break;
+      case "read":
+        setSelectedIds(filteredEnquiries.filter((e) => e.viewed).map((e) => e._id));
+        break;
+      case "unread":
+        setSelectedIds(filteredEnquiries.filter((e) => !e.viewed).map((e) => e._id));
+        break;
+      case "starred":
+        setSelectedIds(filteredEnquiries.filter((e) => e.starred).map((e) => e._id));
+        break;
+      case "unstarred":
+        setSelectedIds(filteredEnquiries.filter((e) => !e.starred).map((e) => e._id));
+        break;
+      default:
+        break;
+    }
+    setSelectMenuOpen(false);
   };
 
   const formatDate = (isoDate) => {
@@ -99,6 +125,16 @@ function Inbox() {
     fetchData();
   }, [filter]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSelectMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const filteredEnquiries = enquiries.filter((enquiry) => {
     const query = searchQuery.toLowerCase();
     return (
@@ -110,26 +146,42 @@ function Inbox() {
   });
 
   const allSelected =
-    selectedIds.length === filteredEnquiries.length &&
-    filteredEnquiries.length > 0;
+    selectedIds.length === filteredEnquiries.length && filteredEnquiries.length > 0;
 
   return (
     <div className="bg-gray-100 min-h-screen mt-0 p-6 ml-64">
       <div className="max-w-6xl">
-        {/* Header & Controls Row */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-          {/* Left controls */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                checked={allSelected}
-                onChange={toggleSelectAll}
-                className="mr-2"
-              />
-              <span className="text-sm text-gray-700">Select All</span>
+          <div className="flex items-center gap-4 relative">
+            <input
+              type="checkbox"
+              checked={allSelected}
+              onChange={toggleSelectAll}
+              className="w-4 h-4 border-gray-400 rounded-sm"
+              title="Select All"
+            />
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setSelectMenuOpen(!selectMenuOpen)}
+                className="w-5 h-5 border border-gray-400 rounded-sm flex items-center justify-center hover:bg-gray-100"
+                title="Selection Options"
+              >
+                <span className="text-xs">▾</span>
+              </button>
+              {selectMenuOpen && (
+                <div className="absolute left-0 mt-1 w-36 bg-white border rounded-md shadow-lg z-10">
+                  {["All", "None", "Read", "Unread", "Starred", "Unstarred"].map((label) => (
+                    <button
+                      key={label}
+                      onClick={() => handleSelectionMenuClick(label.toLowerCase())}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
@@ -139,7 +191,6 @@ function Inbox() {
               <option value="starred">⭐ Starred</option>
               <option value="unread">👁 Unread</option>
             </select>
-
             <button
               onClick={fetchData}
               className="text-sm bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300"
@@ -148,8 +199,6 @@ function Inbox() {
               🔄 Refresh
             </button>
           </div>
-
-          {/* Search bar */}
           <div className="relative w-full md:w-80">
             <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-500" />
             <input
@@ -162,7 +211,6 @@ function Inbox() {
           </div>
         </div>
 
-        {/* Bulk Action Bar */}
         {selectedIds.length > 0 && (
           <div className="flex items-center justify-between bg-white border px-6 py-3 rounded-t-md shadow-sm mb-1">
             <p className="text-sm text-gray-700">{selectedIds.length} selected</p>
@@ -183,7 +231,6 @@ function Inbox() {
           </div>
         )}
 
-        {/* Inbox List */}
         <div className="bg-white rounded-md shadow-sm divide-y">
           {filteredEnquiries.length === 0 ? (
             <p className="text-center py-8 text-gray-500">No enquiries found.</p>
@@ -202,13 +249,10 @@ function Inbox() {
                       type="checkbox"
                       checked={isChecked}
                       onChange={() => toggleSelect(enquiry._id)}
-                      className="flex-shrink-0"
+                      className="w-4 h-4 border-gray-400 rounded-sm"
                     />
-
                     <button
-                      onClick={() =>
-                        handleStarToggle(enquiry._id, enquiry.starred)
-                      }
+                      onClick={() => handleStarToggle(enquiry._id, enquiry.starred)}
                       className={`text-xl ${
                         enquiry.starred ? "text-yellow-500" : "text-gray-400"
                       } hover:text-yellow-600`}
@@ -216,24 +260,19 @@ function Inbox() {
                     >
                       {enquiry.starred ? "★" : "☆"}
                     </button>
-
                     <div className="min-w-0">
                       <p className="truncate text-base">
                         {enquiry.firstName} {enquiry.lastName}{" "}
-                        <span className="text-sm text-gray-500">
-                          ({enquiry.email})
-                        </span>
+                        <span className="text-sm text-gray-500">({enquiry.email})</span>
                       </p>
                       <p className="text-sm text-gray-600 truncate w-11/12">
                         {enquiry.subject}
                       </p>
                     </div>
                   </div>
-
                   <div className="text-sm text-gray-500 whitespace-nowrap ml-4">
                     {formatDate(enquiry.createdAt)}
                   </div>
-
                   <div className="flex items-center gap-2 ml-4">
                     <button
                       onClick={() => handleView(enquiry._id)}
