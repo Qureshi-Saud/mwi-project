@@ -34,42 +34,57 @@ function Dashboard() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-6">Uploaded Products</h1>
+    <div className="ml-64 min-h-screen px-8 py-6 bg-gray-100">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-4xl font-bold text-gray-800">Uploaded Products</h1>
+        
+      </div>
 
       {products.length === 0 ? (
-        <p className="text-gray-600">No products found.</p>
+        <p className="text-gray-500 text-lg">No products found.</p>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <div
-              key={product._id}
-              className="border rounded-lg shadow-md p-4 relative bg-white"
-            >
-              {/* Only 1st image shown */}
-              {product.image && (
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-48 object-cover rounded mb-4"
-                />
-              )}
-
-              {/* Name & Type only */}
-              <h2 className="text-xl font-semibold mb-1">{product.name}</h2>
-              <span className="inline-block text-xs text-white bg-blue-600 rounded px-2 py-0.5 mb-2">
-                {product.type}
-              </span>
-
-              {/* Delete button */}
-              <button
-                onClick={() => handleDelete(product._id)}
-                className="absolute top-2 right-2 bg-red-500 text-white rounded px-2 py-1 text-xs hover:bg-red-600"
-              >
-                Delete
-              </button>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white shadow rounded-lg">
+            <thead className="bg-gray-200 text-gray-700 text-sm">
+              <tr>
+                <th className="text-left py-3 px-4">Image</th>
+                <th className="text-left py-3 px-4">Name</th>
+                <th className="text-left py-3 px-4">Type</th>
+                <th className="text-left py-3 px-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product) => (
+                <tr key={product._id} className="border-t hover:bg-gray-50">
+                  <td className="py-3 px-4">
+                    {product.image ? (
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                    ) : (
+                      <span className="text-gray-400 italic">No Image</span>
+                    )}
+                  </td>
+                  <td className="py-3 px-4 font-medium">{product.name}</td>
+                  <td className="py-3 px-4">
+                    <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                      {product.type}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="text-red-600 hover:underline text-sm"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

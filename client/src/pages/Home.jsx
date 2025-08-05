@@ -1,269 +1,234 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import axios from "axios";
 import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import {
+  AiOutlineCheckCircle,
+  AiOutlineSafetyCertificate,
+  AiOutlineThunderbolt,
+} from "react-icons/ai";
 import {
   hero1,
   hero2,
   hero3,
-  hero4,
-  aboutImg,
-  fullwidth,
-  fullwidthmobile,
-  g1,
-  g2,
-  g3,
-  g4,
-  g5,
-  g6,
-  g7,
-  g8,
-  expert1,
-  expert2,
-  expert3,
+  food,
+  oil,
+  pharma,
+  auto,
+  building,
 } from "../assets";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import useWindowWidth from "../hooks/useWindowWidth";
 
-
-const Home = () => {
+function Home() {
+  const [products, setProducts] = useState([]);
+  const [activeSlide, setActiveSlide] = useState(0);
   const navigate = useNavigate();
-  const width = useWindowWidth();
-  const scrollRef = useRef();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const container = scrollRef.current;
-      if (container) {
-        const maxScrollLeft = container.scrollWidth - container.clientWidth;
-        if (container.scrollLeft >= maxScrollLeft) {
-          container.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          container.scrollBy({ left: 320, behavior: "smooth" });
-        }
-      }
-    }, 3000);
-    return () => clearInterval(interval);
+    axios.get("http://localhost:5000/api/products").then((res) => {
+      setProducts(res.data.slice(0, 8));
+    });
   }, []);
 
-  const scrollLeft = () => {
-    scrollRef.current?.scrollBy({ left: -320, behavior: "smooth" });
+  const handleViewProduct = (id) => {
+    navigate(`/product/${id}`);
   };
 
-  const scrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 320, behavior: "smooth" });
-  };
+  const slides = [
+    {
+      id: 1,
+      img: hero1,
+      title: "ENGINEERED TO SEAL",
+      subtitle: "Innovative sealing solutions for demanding industries.",
+    },
+    {
+      id: 2,
+      img: hero2,
+      title: "PRECISION IN EVERY TURN",
+      subtitle: "Crafted with accuracy and efficiency in mind.",
+    },
+    {
+      id: 3,
+      img: hero3,
+      title: "RELIABLE UNDER PRESSURE",
+      subtitle: "Sealing technology that performs under extreme conditions.",
+    },
+  ];
+
+  const industries = [
+    { id: 1, name: "Pharmaceutical", img: pharma },
+    { id: 2, name: "Oil & Gas", img: oil },
+    { id: 3, name: "Food Processing", img: food },
+    { id: 4, name: "Automotive", img: auto },
+  ];
 
   return (
-    <div className="pt-4">
-      {/* HERO SECTION */}
-      <section className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-20 py-16 gap-6">
-        <motion.div
-          className="lg:w-1/2 text-center lg:text-left space-y-6"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
-          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight">
-            Engineering the <span className="text-indigo-600">Future</span> with Excellence
-          </h1>
-          <p className="text-gray-600 text-lg font-light">
-            Microwell Industries leads with precision and innovation, delivering world-class industrial solutions.
-          </p>
-          <button
-            onClick={() => navigate("/contact")}
-            className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition hover:scale-105 duration-300 font-medium shadow"
-          >
-            Contact Us
-          </button>
-        </motion.div>
+    <div>
+      {/* Hero Section */}
+      <Swiper
+        modules={[Autoplay, Navigation, Pagination]}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        navigation
+        pagination={{ clickable: true }}
+        loop
+        onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
+        className="relative h-[80vh] w-full"
+      >
+        {slides.map((slide, index) => (
+          <SwiperSlide key={slide.id}>
+            <div
+              className="h-full w-full bg-cover bg-center flex items-center justify-center relative"
+              style={{ backgroundImage: `url(${slide.img})` }}
+            >
+              {activeSlide === index && (
+                <motion.div
+                  className="text-center text-white px-4"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1 }}
+                >
+                  <h2 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+                    {slide.title}
+                  </h2>
+                  <p className="text-lg md:text-2xl drop-shadow">
+                    {slide.subtitle}
+                  </p>
+                </motion.div>
+              )}
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-        <motion.div
-          className="lg:w-1/2 w-full max-w-xl"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7 }}
-          viewport={{ once: true }}
-        >
-          <Carousel
-            autoPlay
-            interval={4000}
-            infiniteLoop
-            showThumbs={false}
-            showStatus={false}
-            swipeable
-            emulateTouch
-          >
-            {[hero1, hero2, hero3, hero4].map((img, idx) => (
-              <div key={idx}>
-                <img src={img} alt={`Slide ${idx + 1}`} className="rounded-2xl object-cover" />
+      {/* Info Section */}
+      <section className="py-16 px-4 md:px-12 bg-white">
+        <div className="max-w-screen-xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h3 className="text-blue-600 font-semibold text-sm">
+              GET THE RIGHT SOLUTION FOR
+            </h3>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+              Mechanical Seals
+            </h2>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              We have been one of the leading and most experienced
+              manufacturers, exporters, and trusted suppliers in the mechanical
+              seals industry for the last 25 years, as Hydrexa...
+            </p>
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <AiOutlineCheckCircle className="text-blue-500 w-6 h-6 mt-1" />
+                <div>
+                  <h4 className="font-semibold text-gray-800">
+                    Quality Assurance
+                  </h4>
+                  <p className="text-gray-600 text-sm">
+                    All product verify by QC Department.
+                  </p>
+                </div>
               </div>
-            ))}
-          </Carousel>
-        </motion.div>
+              <div className="flex items-start gap-4">
+                <AiOutlineSafetyCertificate className="text-blue-500 w-6 h-6 mt-1" />
+                <div>
+                  <h4 className="font-semibold text-gray-800">
+                    Certified Products
+                  </h4>
+                  <p className="text-gray-600 text-sm">
+                    All products are certified by ISO Certification.
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <AiOutlineThunderbolt className="text-blue-500 w-6 h-6 mt-1" />
+                <div>
+                  <h4 className="font-semibold text-gray-800">Quick Service</h4>
+                  <p className="text-gray-600 text-sm">
+                    Quick Service regarding our product at door steps.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <img
+              src={building}
+              alt="Company Building"
+              className="rounded-2xl shadow-lg object-cover w-full"
+            />
+          </div>
+        </div>
       </section>
 
-      {/* ABOUT SECTION */}
-      <section className="px-6 md:px-20 py-10 bg-gray-100">
-  <motion.div
-    className="flex flex-col md:flex-row items-center gap-8 bg-gray-200 rounded-3xl p-8 shadow-lg"
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.7 }}
-    viewport={{ once: true }}
-  >
-    <motion.div
-  className="w-full md:w-1/2 rounded-3xl overflow-hidden shadow-md h-96 md:h-auto"
-  initial={{ opacity: 0, x: -50 }}
-  whileInView={{ opacity: 1, x: 0 }}
-  transition={{ duration: 0.7 }}
-  viewport={{ once: true }}
->
-  <img
-    src={aboutImg}
-    alt="About Us"
-    className="w-full h-full object-cover rounded-3xl"
-  />
-</motion.div>
-
-    <motion.div
-      className="md:w-1/2 space-y-4 text-center md:text-left"
-      initial={{ opacity: 0, x: 50 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.7 }}
-      viewport={{ once: true }}
-    >
-      <h2 className="text-3xl md:text-5xl font-bold text-gray-800">
-        About <span className="text-indigo-600">Microwell Industries</span>
-      </h2>
-      <p className="text-gray-700 text-lg font-light">
-        Microwell Industries is a pioneer in the manufacturing of Mechanical Seals, built with top-grade materials in our modern facility. Our professional team ensures unmatched product quality and reliable after-sales support.
-      </p>
-      <button
-        onClick={() => navigate("/about")}
-        className="bg-indigo-600 text-white px-5 py-3 rounded-xl hover:bg-indigo-700 transition hover:scale-105 duration-300 font-medium shadow"
-      >
-        More Info
-      </button>
-    </motion.div>
-  </motion.div>
-</section>
-
-
-      {/* FULL WIDTH IMAGE */}
-      <motion.div
-        className="w-full my-14 px-6 md:px-0"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <img
-          src={fullwidth}
-          alt="Microwell Full - Desktop"
-          className="max-w-6xl w-full rounded-xl hidden md:block mx-auto"
-        />
-        <img
-          src={fullwidthmobile}
-          alt="Microwell Full - Mobile"
-          className="w-full rounded-xl block md:hidden"
-        />
-      </motion.div>
-
-      {/* GALLERY SECTION */}
-      <motion.section
-        className="px-6 md:px-20 py-16 bg-white relative"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-gray-800">
-          Our <span className="text-indigo-600">Gallery</span>
-        </h2>
-
-        <button
-          className="absolute left-4 top-[58%] transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10 hover:bg-gray-600"
-          onClick={scrollLeft}
-        >
-          <FaChevronLeft />
-        </button>
-        <button
-          className="absolute right-4 top-[58%] transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10 hover:bg-gray-600"
-          onClick={scrollRight}
-        >
-          <FaChevronRight />
-        </button>
-
-        <div
-          ref={scrollRef}
-          className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar px-10"
-        >
-          {[g1, g2, g3, g4, g5, g6, g7, g8].map((img, idx) => (
-            <motion.div
-              key={idx}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
-              className="snap-start min-w-[300px] h-[200px] rounded-xl overflow-hidden shadow-md flex-shrink-0"
-            >
-              <img
-                src={img}
-                alt={`Gallery ${idx + 1}`}
-                className="w-full h-full object-cover transition duration-300 ease-in-out"
-              />
-            </motion.div>
-          ))}
+      {/* Our Products */}
+      <section className="py-16 px-4 md:px-12 bg-gray-50">
+        <div className="max-w-screen-xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-10">Our Products</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((product) => (
+              <div
+                key={product._id}
+                className="relative group rounded-2xl overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+                onClick={() => handleViewProduct(product._id)}
+              >
+                <div className="relative w-full h-48 overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-white font-semibold text-lg">
+                      View Details
+                    </span>
+                  </div>
+                </div>
+                <div className="p-4 text-center">
+                  <p className="text-blue-500 text-sm font-medium uppercase mb-1">
+                    {product.type}
+                  </p>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {product.name}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* FIELDS OF EXPERTISE */}
-      <section className="px-6 md:px-20 py-16 bg-gray-50">
-        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-gray-800">
-          Fields of <span className="text-indigo-600">Expertise</span>
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              img: expert1,
-              title: "Skilled Professionals",
-              desc: "Our team includes experienced engineers and technicians.",
-            },
-            {
-              img: expert2,
-              title: "Superior Quality Analysis",
-              desc: "We maintain stringent quality control for every component.",
-            },
-            {
-              img: expert3,
-              title: "Advanced Technology",
-              desc: "Equipped with modern machinery and innovation.",
-            },
-          ].map((field, i) => (
-            <motion.div
-              key={i}
-              className="bg-white p-6 rounded-3xl shadow-md hover:shadow-xl transition"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.2 }}
-            >
-              <img
-                src={field.img}
-                alt={field.title}
-                className="h-40 w-full object-cover rounded-lg mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2 text-gray-700">
-                {field.title}
-              </h3>
-              <p className="text-gray-600 text-sm font-light">{field.desc}</p>
-            </motion.div>
-          ))}
+      {/* Industries Served */}
+      <section className="py-16 px-4 md:px-12">
+        <div className="max-w-screen-xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-10">
+            Industries We Serve
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {industries.map((industry) => (
+              <div
+                key={industry.id}
+                className="rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+              >
+                <img
+                  src={industry.img}
+                  alt={industry.name}
+                  className="w-full h-40 object-cover"
+                />
+                <div className="p-4 bg-white text-center">
+                  <h3 className="text-lg font-semibold text-gray-700">
+                    {industry.name}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
   );
-};
+}
 
 export default Home;

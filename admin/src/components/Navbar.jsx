@@ -1,13 +1,20 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Menu, X } from "lucide-react";
+import {
+  Menu,
+  X,
+  LayoutDashboard,
+  Upload,
+  Inbox,
+  LogOut,
+} from "lucide-react";
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const closeMenu = () => setIsOpen(false);
 
   const handleLogout = () => {
     logout();
@@ -16,25 +23,98 @@ function Navbar() {
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  const isActive = (path) =>
+    location.pathname === path ? "text-blue-600 font-semibold" : "text-gray-700";
+
+  // ✅ Page title based on route
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case "/dashboard":
+        return "Dashboard";
+      case "/upload":
+        return "Upload Product";
+      case "/admin/enquiries":
+        return "Inbox";
+      default:
+        return "";
+    }
+  };
+
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white shadow z-50">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <h1 className="font-bold text-xl">Admin Panel</h1>
+    <>
+      {/* Sidebar */}
+      <nav className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 flex flex-col justify-between">
+        {/* Header */}
+        <div>
+          <div className="flex items-center justify-between px-4 py-4 border-b">
+            <h1 className="font-bold text-xl">Admin Panel</h1>
+            <button
+              className="md:hidden text-gray-700"
+              onClick={toggleMenu}
+              aria-label="Toggle Menu"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
 
-        {/* Mobile Menu Button */}
-        <button className="md:hidden text-gray-700" onClick={toggleMenu} aria-label="Toggle Menu">
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          {/* Sidebar Links */}
+          <div
+            className={`flex-col md:flex md:flex-grow px-4 py-4 space-y-4 ${
+              isOpen ? "flex" : "hidden md:flex"
+            }`}
+          >
+            <Link
+              to="/dashboard"
+              onClick={() => setIsOpen(false)}
+              className={`flex items-center space-x-2 hover:text-blue-600 ${isActive(
+                "/dashboard"
+              )}`}
+            >
+              <LayoutDashboard size={18} />
+              <span>Dashboard</span>
+            </Link>
 
-        {/* Navigation Links */}
-        <div className={`${ isOpen ? "block" : "hidden" } absolute md:static top-full left-0 w-full md:w-auto bg-white md:flex md:items-center space-y-4 md:space-y-0 md:space-x-4 px-4 md:px-0 py-4 md:py-0 shadow md:shadow-none`}>
-          <Link to="/dashboard" onClick={closeMenu} className="block hover:text-blue-600">Dashboard</Link>
-          <Link to="/upload" onClick={closeMenu} className="block hover:text-blue-600">Upload Product</Link>
-          <Link to="/admin/enquiries" onClick={closeMenu} className="block hover:text-blue-600">Inbox</Link>
-          <button onClick={handleLogout} className="block hover:text-red-500">Logout</button>
+            <Link
+              to="/upload"
+              onClick={() => setIsOpen(false)}
+              className={`flex items-center space-x-2 hover:text-blue-600 ${isActive(
+                "/upload"
+              )}`}
+            >
+              <Upload size={18} />
+              <span>Upload Product</span>
+            </Link>
+
+            <Link
+              to="/admin/enquiries"
+              onClick={() => setIsOpen(false)}
+              className={`flex items-center space-x-2 hover:text-blue-600 ${isActive(
+                "/admin/enquiries"
+              )}`}
+            >
+              <Inbox size={18} />
+              <span>Inbox</span>
+            </Link>
+          </div>
         </div>
+
+        {/* Logout Button */}
+        <div className="px-4 py-4 border-t">
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-2 text-red-500 hover:text-red-600"
+          >
+            <LogOut size={18} />
+            <span>Logout</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* ✅ Page Title Section (beside the sidebar) */}
+      <div className="ml-64 px-6 py-4 bg-gray-100 border-b shadow-sm sticky top-0 z-40">
+        <h1 className="text-2xl font-semibold text-gray-800">{getPageTitle()}</h1>
       </div>
-    </nav>
+    </>
   );
 }
 

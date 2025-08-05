@@ -14,6 +14,8 @@ import {
   FaLayerGroup,
   FaCheck,
 } from "react-icons/fa";
+import header from "../assets/header.png";
+
 
 // Animation Variants
 const container = {
@@ -73,33 +75,29 @@ function Services() {
 
   return (
     <div className="bg-white text-gray-800 font-sans">
-      {/* Section Header with Animation */}
-      <motion.section
-        className="w-full bg-blue-900 text-white text-center py-20 px-4 md:px-6 mb-20"
-        variants={container}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <motion.h1
-          variants={fadeInUp}
-          className="text-4xl md:text-5xl font-bold mb-4"
-        >
-          Our Services
-        </motion.h1>
-
-        <motion.p
-          variants={fadeInUp}
-          className="max-w-2xl mx-auto text-lg md:text-xl"
-          transition={{ delay: 0.2 }}
-        >
-          We believe in client satisfaction through best service.
-        </motion.p>
-      </motion.section>
+      {/* Header Section */}
+            <header
+              className="relative h-64 md:h-64 bg-cover bg-center text-white flex flex-col items-center justify-center text-center px-6"
+              style={{ backgroundImage: `url(${header})` }}
+            >
+              <div className="absolute inset-0 bg-blue-900 bg-opacity-70"></div>
+      
+              <motion.div
+                className="relative z-10 max-w-3xl"
+                initial={{ opacity: 0, y: -40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
+                <p className="max-w-2xl mx-auto text-base md:text-lg">
+                  We believe in client satisfaction through best service.
+                </p>
+              </motion.div>
+            </header>
 
       {/* Service Cards */}
       <motion.div
-        className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 px-4 md:px-6 max-w-screen-xl mx-auto"
+        className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 py-12 mb-12 px-4 md:px-6 max-w-screen-xl mx-auto"
         variants={container}
         initial="hidden"
         whileInView="visible"
@@ -127,7 +125,7 @@ function Services() {
       </motion.div>
 
       {/* Seal and Side Services */}
-      <div className="flex flex-wrap justify-center items-center px-4 md:px-10 py-20 gap-10 bg-gray-50 max-w-screen-xl mx-auto">
+      <div className="flex flex-wrap justify-center items-center px-4 md:px-10 gap-20 bg-gray-50 max-w-screen-xl mx-auto">
         {/* Left Column */}
         <motion.div
           className="flex flex-col gap-8 items-center text-center"
@@ -189,8 +187,37 @@ function Services() {
               </span>
             </motion.div>
           ))}
+
         </motion.div>
       </div>
+      {/* Service Cards */}
+      <motion.div
+        className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 py-5 px-4 md:px-6 max-w-screen-xl mx-auto"
+        variants={container}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        {services.map((service, index) => (
+          <motion.div
+            key={index}
+            variants={fadeInUp}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.6, delay: index * 0.2 }}
+            className="bg-white rounded-2xl shadow-md hover:shadow-2xl hover:border-blue-400 hover:border-2 transition duration-300 text-center p-6"
+          >
+            <img
+              src={service.image}
+              alt={service.title}
+              className="w-full h-52 object-cover rounded-xl mb-4"
+            />
+            <h3 className="text-2xl font-semibold mb-2 text-gray-800">
+              {service.title}
+            </h3>
+            <p className="text-gray-600">{service.description}</p>
+          </motion.div>
+        ))}
+      </motion.div>
     </div>
   );
 }

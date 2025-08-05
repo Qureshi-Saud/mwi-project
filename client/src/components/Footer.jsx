@@ -29,7 +29,7 @@ const Footer = () => {
           <h3 className="text-lg font-bold text-blue-500 mb-3">Contact Info</h3>
           <p className="flex items-start gap-2 text-base mb-2 text-gray-1000">
             <FaMapMarkerAlt className="mt-1 text-blue-300" />
-            B-3, Pandit Jawaharlal Nehru Rd, Patel Park, Vakola,<br />
+            B-3, Pandit Jawaharlal Nehru Rd, Patel Park, Vakola,
             Santacruz East, Mumbai, Maharashtra 400055
           </p>
           <p className="flex items-center gap-2 text-base mb-2 text-gray-1000">

@@ -22,6 +22,11 @@ import service from "./service.png";
 import service1 from "./service1.png";
 import service2 from "./service2.png";
 import Seal from "./Seal.png";
+import food from "./food.png";
+import oil from "./oil.png";
+import pharma from "./pharma.png";
+import building from "./building.png";
+import auto from "./auto.png";
 
 
 
@@ -49,5 +54,10 @@ export {
   service,
   service1,
   service2,
-  Seal
+  Seal,
+  oil,
+  food,
+  pharma,
+  auto,
+  building
 };

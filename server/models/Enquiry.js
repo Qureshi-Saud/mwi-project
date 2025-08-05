@@ -12,6 +12,11 @@ const enquirySchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  starred: {
+    type: Boolean,
+    default: false,
+    index: true,
+  },
 }, { timestamps: true });
 
 export default mongoose.model("Enquiry", enquirySchema);
