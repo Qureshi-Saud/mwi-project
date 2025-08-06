@@ -26,25 +26,18 @@ function Navbar() {
   const isActive = (path) =>
     location.pathname === path ? "text-blue-600 font-semibold" : "text-gray-700";
 
-  // ✅ Page title based on route
   const getPageTitle = () => {
-    switch (location.pathname) {
-      case "/dashboard":
-        return "Dashboard";
-      case "/upload":
-        return "Upload Product";
-      case "/admin/enquiries":
-        return "Inbox";
-      default:
-        return "";
-    }
+    if (location.pathname === "/dashboard") return "Dashboard";
+    if (location.pathname === "/upload") return "Upload Product";
+    if (location.pathname === "/admin/enquiries") return "Inbox";
+    if (location.pathname.startsWith("/admin/enquiries/")) return "Enquiry Detail";
+    return "";
   };
 
   return (
     <>
       {/* Sidebar */}
       <nav className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 flex flex-col justify-between">
-        {/* Header */}
         <div>
           <div className="flex items-center justify-between px-4 py-4 border-b">
             <h1 className="font-bold text-xl">Admin Panel</h1>
@@ -98,7 +91,7 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Logout Button */}
+        {/* Logout */}
         <div className="px-4 py-4 border-t">
           <button
             onClick={handleLogout}
@@ -110,10 +103,12 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* ✅ Page Title Section (beside the sidebar) */}
-      <div className="ml-64 px-6 py-4 bg-gray-100 border-b shadow-sm sticky top-0 z-40">
-        <h1 className="text-2xl font-semibold text-gray-800">{getPageTitle()}</h1>
-      </div>
+      {/* Conditionally Render Title Bar */}
+      {getPageTitle() && (
+        <div className="ml-64 px-6 py-4 bg-gray-100 border-b shadow-sm sticky top-0 z-40">
+          <h1 className="text-2xl font-semibold text-gray-800">{getPageTitle()}</h1>
+        </div>
+      )}
     </>
   );
 }

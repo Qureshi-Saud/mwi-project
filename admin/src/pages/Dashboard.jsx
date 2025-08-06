@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 
+
 function Dashboard() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
@@ -67,7 +68,13 @@ function Dashboard() {
                       <span className="text-gray-400 italic">No Image</span>
                     )}
                   </td>
-                  <td className="py-3 px-4 font-medium">{product.name}</td>
+                  <td
+  className="py-3 px-4 font-medium text-blue-600 hover:underline cursor-pointer"
+  onClick={() => navigate(`/product/${product._id}`)}
+>
+  {product.name}
+</td>
+
                   <td className="py-3 px-4">
                     <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded">
                       {product.type}

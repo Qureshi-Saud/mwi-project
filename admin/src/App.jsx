@@ -8,17 +8,17 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 import Inbox from "./pages/Inbox";
 import EnquiryDetail from "./pages/EnquiryDetail";
+import ProductDetail from "./pages/ProductDetail";
 
 function AppWrapper() {
   const { token } = useAuth();
 
   const showNavbar = token;
-  const mainPadding = showNavbar ? "pt-16" : "";
 
   return (
     <>
       {showNavbar && <Navbar />}
-      <main className={mainPadding}>
+      <main>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route
@@ -53,7 +53,16 @@ function AppWrapper() {
               </ProtectedRoute>
             }
           />
+          <Route
+  path="/product/:id"
+  element={
+    <ProtectedRoute>
+      <ProductDetail />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
+        
       </main>
     </>
   );
