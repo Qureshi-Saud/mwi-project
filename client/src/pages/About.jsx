@@ -14,7 +14,7 @@ export const fadeUp = {
 
 const About = () => {
   return (
-    <div className="bg-white text-gray-800 font-sans">
+    <div className="bg-white text-gray-800">
       {/* Hero Section */}
       <motion.section
         initial="hidden"

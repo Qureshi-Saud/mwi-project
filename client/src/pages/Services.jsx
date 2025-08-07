@@ -74,7 +74,7 @@ function Services() {
   ];
 
   return (
-    <div className="bg-white text-gray-800 font-sans">
+    <div className="bg-white text-gray-800">
       {/* Header Section */}
             <header
               className="relative h-64 md:h-64 bg-cover bg-center text-white flex flex-col items-center justify-center text-center px-6"

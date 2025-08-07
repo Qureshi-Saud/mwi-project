@@ -166,7 +166,7 @@ function Products() {
 
       {/* Content Container */}
       <motion.div
-        className="bg-white text-gray-800 font-sans py-12 px-4 container mx-auto"
+        className="bg-white text-gray-800 py-12 px-4 container mx-auto"
         variants={containerVariants}
       >
         {/* Search Bar */}
