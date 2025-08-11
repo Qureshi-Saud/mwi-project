@@ -11,6 +11,11 @@ function Inbox() {
   const [selectMenuOpen, setSelectMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  // Added states for sorting & pagination
+  const [sortOption, setSortOption] = useState("newest");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -135,18 +140,32 @@ function Inbox() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const filteredEnquiries = enquiries.filter((enquiry) => {
-    const query = searchQuery.toLowerCase();
-    return (
-      enquiry.firstName.toLowerCase().includes(query) ||
-      enquiry.lastName.toLowerCase().includes(query) ||
-      enquiry.email.toLowerCase().includes(query) ||
-      enquiry.subject.toLowerCase().includes(query)
-    );
-  });
+  const filteredEnquiries = enquiries
+    .filter((enquiry) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        enquiry.firstName.toLowerCase().includes(query) ||
+        enquiry.lastName.toLowerCase().includes(query) ||
+        enquiry.email.toLowerCase().includes(query) ||
+        enquiry.subject.toLowerCase().includes(query)
+      );
+    })
+    .sort((a, b) => {
+      if (sortOption === "newest") return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sortOption === "oldest") return new Date(a.createdAt) - new Date(b.createdAt);
+      if (sortOption === "az") return a.firstName.localeCompare(b.firstName);
+      if (sortOption === "za") return b.firstName.localeCompare(a.firstName);
+      return 0;
+    });
 
   const allSelected =
     selectedIds.length === filteredEnquiries.length && filteredEnquiries.length > 0;
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredEnquiries.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredEnquiries.length / itemsPerPage);
 
   return (
     <div className="bg-gray-100 min-h-screen mt-0 p-6 ml-64">
@@ -191,6 +210,16 @@ function Inbox() {
               <option value="starred">⭐ Starred</option>
               <option value="unread">👁 Unread</option>
             </select>
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="text-sm px-3 py-1 border rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="newest">🆕 Newest First</option>
+              <option value="oldest">📜 Oldest First</option>
+              <option value="az">🔤 A-Z</option>
+              <option value="za">🔡 Z-A</option>
+            </select>
             <button
               onClick={fetchData}
               className="text-sm bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300"
@@ -232,10 +261,10 @@ function Inbox() {
         )}
 
         <div className="bg-white rounded-md shadow-sm divide-y">
-          {filteredEnquiries.length === 0 ? (
+          {currentItems.length === 0 ? (
             <p className="text-center py-8 text-gray-500">No enquiries found.</p>
           ) : (
-            filteredEnquiries.map((enquiry) => {
+            currentItems.map((enquiry) => {
               const isChecked = selectedIds.includes(enquiry._id);
               return (
                 <div
@@ -294,6 +323,47 @@ function Inbox() {
             })
           )}
         </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-between items-center mt-4">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                Prev
+              </button>
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+            <div>
+              <select
+                value={itemsPerPage}
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="border px-2 py-1 rounded"
+              >
+                {[5, 10, 20, 50].map((num) => (
+                  <option key={num} value={num}>
+                    {num} per page
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

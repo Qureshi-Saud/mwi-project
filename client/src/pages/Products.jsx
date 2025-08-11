@@ -124,7 +124,10 @@ const itemVariants = {
 function Products() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  // Fetch products
   useEffect(() => {
     api
       .get("/products")
@@ -132,9 +135,41 @@ function Products() {
       .catch((err) => console.error(err));
   }, []);
 
+  // Adjust items per page based on screen size
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      if (window.innerWidth < 768) {
+        setItemsPerPage(15); // mobile
+      } else if (window.innerWidth < 1024) {
+        setItemsPerPage(18); // tablet
+      } else {
+        setItemsPerPage(20); // desktop
+      }
+    };
+
+    updateItemsPerPage();
+    window.addEventListener("resize", updateItemsPerPage);
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, []);
+
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentProducts = filteredProducts.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <motion.div
@@ -159,7 +194,8 @@ function Products() {
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Products</h1>
           <p className="max-w-2xl mx-auto text-base md:text-lg">
             Discover our high-performance solutions tailored for power,
-            chemical, and industrial sectors. Trusted quality. Engineered to last.
+            chemical, and industrial sectors. Trusted quality. Engineered to
+            last.
           </p>
         </motion.div>
       </header>
@@ -170,10 +206,7 @@ function Products() {
         variants={containerVariants}
       >
         {/* Search Bar */}
-        <motion.div
-          className="mb-10 max-w-md mx-auto"
-          variants={itemVariants}
-        >
+        <motion.div className="mb-10 max-w-md mx-auto" variants={itemVariants}>
           <input
             type="text"
             placeholder="Search by product name..."
@@ -188,7 +221,7 @@ function Products() {
           className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
           variants={containerVariants}
         >
-          {filteredProducts.map((product, index) => (
+          {currentProducts.map((product) => (
             <motion.div key={product._id} variants={itemVariants}>
               <Link
                 to={`/product/${product._id}`}
@@ -232,6 +265,74 @@ function Products() {
           >
             No products match your search.
           </motion.p>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-10 space-x-2 flex-wrap">
+            {/* Prev Button */}
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`px-4 py-2 rounded-md border ${
+                currentPage === 1
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+              }`}
+            >
+              Prev
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter((page) => {
+                if (page === 1 || page === totalPages) return true;
+                if (page >= currentPage - 1 && page <= currentPage + 1)
+                  return true;
+                return false;
+              })
+              .reduce((acc, page, idx, arr) => {
+                if (idx > 0 && page - arr[idx - 1] > 1) {
+                  acc.push("ellipsis");
+                }
+                acc.push(page);
+                return acc;
+              }, [])
+              .map((item, idx) =>
+                item === "ellipsis" ? (
+                  <span
+                    key={`ellipsis-${idx}`}
+                    className="px-3 py-2 text-gray-500"
+                  >
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={item}
+                    onClick={() => handlePageChange(item)}
+                    className={`px-4 py-2 rounded-md border ${
+                      currentPage === item
+                        ? "bg-blue-600 text-white border-blue-600"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                    }`}
+                  >
+                    {item}
+                  </button>
+                )
+              )}
+
+            {/* Next Button */}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`px-4 py-2 rounded-md border ${
+                currentPage === totalPages
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+              }`}
+            >
+              Next
+            </button>
+          </div>
         )}
       </motion.div>
     </motion.div>
