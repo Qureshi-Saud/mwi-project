@@ -161,7 +161,7 @@ const Contact = () => {
               <span>+91 7715068534 | +91 9988776655</span>
             </div>
             <div className="flex items-center gap-2 text-gray-700">
-              <FaMapMarkerAlt className="text-blue-600flex-shrink-0" />
+              <FaMapMarkerAlt className="text-blue-600 flex-shrink-0" />
               <span>
                 <strong>Branch 2:</strong> Rizvi Educational Complex, Off Carter
                 Rd, Rizvi Complex, Chuim, Bandra West, Mumbai, Maharashtra
