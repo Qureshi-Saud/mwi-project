@@ -61,10 +61,17 @@ function Home() {
 
   const industries = [
     { id: 1, name: "Pharmaceutical", img: pharma },
-    { id: 2, name: "Oil & Gas", img: oil },
+    { id: 2, name: "Chemicals", img: oil },
     { id: 3, name: "Food Processing", img: food },
-    { id: 4, name: "Automotive", img: auto },
+    { id: 4, name: "Refineries", img: auto },
+    { id: 5, name: "Marines", img: pharma },
+    { id: 6, name: "Fertilizers", img: oil },
+    { id: 7, name: "PowerPlants", img: food },
+    { id: 8, name: "Petrochemicals", img: auto },
   ];
+
+  // Helper function to detect mobile width for inline style (won't update on resize though)
+  const isMobile = window.innerWidth < 768;
 
   return (
     <div>
@@ -72,36 +79,54 @@ function Home() {
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
-        navigation
+        navigation={{
+          prevEl: ".swiper-button-prev",
+          nextEl: ".swiper-button-next",
+        }}
         pagination={{ clickable: true }}
         loop
         onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
-        className="relative h-[80vh] w-full"
+        className="relative w-full h-[300px] md:h-screen"
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={slide.id}>
-            <div
-              className="h-full w-full bg-cover bg-center flex items-center justify-center relative"
-              style={{ backgroundImage: `url(${slide.img})` }}
-            >
-              {activeSlide === index && (
-                <motion.div
-                  className="text-center text-white px-4"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1 }}
-                >
-                  <h2 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
-                    {slide.title}
-                  </h2>
-                  <p className="text-lg md:text-2xl drop-shadow">
-                    {slide.subtitle}
-                  </p>
-                </motion.div>
-              )}
+            <div className="relative h-full w-full">
+              {/* Background image with overlay */}
+              <div
+                className="absolute inset-0 bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: `url(${slide.img})`,
+                  backgroundSize: isMobile ? "contain" : "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+              {/* Content */}
+              <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 text-center text-white max-w-4xl mx-auto">
+                {activeSlide === index && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -40 }}
+                    transition={{ duration: 1 }}
+                  >
+                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold drop-shadow-lg mb-4">
+                      {slide.title}
+                    </h2>
+                    <p className="text-sm sm:text-lg md:text-xl drop-shadow-md max-w-3xl mx-auto">
+                      {slide.subtitle}
+                    </p>
+                  </motion.div>
+                )}
+              </div>
             </div>
           </SwiperSlide>
         ))}
+
+        {/* Custom styled navigation buttons */}
+        <div className="swiper-button-prev text-white opacity-80 hover:opacity-100 transition-opacity" />
+        <div className="swiper-button-next text-white opacity-80 hover:opacity-100 transition-opacity" />
       </Swiper>
 
       {/* Info Section */}
@@ -167,7 +192,7 @@ function Home() {
       <section className="py-16 px-4 md:px-12 bg-gray-50">
         <div className="max-w-screen-xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-10">Our Products</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((product) => (
               <div
                 key={product._id}
@@ -206,7 +231,7 @@ function Home() {
           <h2 className="text-3xl font-bold text-center mb-10">
             Industries We Serve
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {industries.map((industry) => (
               <div
                 key={industry.id}
