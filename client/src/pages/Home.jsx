@@ -140,33 +140,6 @@ function Home() {
         </Swiper>
       </div>
 
-              {/* Content */}
-              <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 text-center text-white max-w-4xl mx-auto">
-                {activeSlide === index && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -40 }}
-                    transition={{ duration: 1 }}
-                  >
-                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold drop-shadow-lg mb-4">
-                      {slide.title}
-                    </h2>
-                    <p className="text-sm sm:text-lg md:text-xl drop-shadow-md max-w-3xl mx-auto">
-                      {slide.subtitle}
-                    </p>
-                  </motion.div>
-                )}
-              </div>
-            </div>
-          </SwiperSlide>
-        ))}
-
-        {/* Custom styled navigation buttons */}
-        <div className="swiper-button-prev text-white opacity-80 hover:opacity-100 transition-opacity" />
-        <div className="swiper-button-next text-white opacity-80 hover:opacity-100 transition-opacity" />
-      </Swiper>
-
       {/* Info Section */}
       <section className="py-16 px-4 md:px-12 bg-white">
         <div className="max-w-screen-xl mx-auto grid md:grid-cols-2 gap-8 items-center">
