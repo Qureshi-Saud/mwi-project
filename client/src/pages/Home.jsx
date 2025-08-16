@@ -70,37 +70,75 @@ function Home() {
     { id: 8, name: "Petrochemicals", img: auto },
   ];
 
-  // Helper function to detect mobile width for inline style (won't update on resize though)
-  const isMobile = window.innerWidth < 768;
-
   return (
     <div>
-      {/* Hero Section */}
-      <Swiper
-        modules={[Autoplay, Navigation, Pagination]}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-        navigation={{
-          prevEl: ".swiper-button-prev",
-          nextEl: ".swiper-button-next",
-        }}
-        pagination={{ clickable: true }}
-        loop
-        onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
-        className="relative w-full h-[300px] md:h-screen"
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={slide.id}>
-            <div className="relative h-full w-full">
-              {/* Background image with overlay */}
+      {/* Hero Section Desktop View */}
+      <div className="hidden md:block">
+        <Swiper
+          modules={[Autoplay, Navigation, Pagination]}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          navigation
+          pagination={{ clickable: true }}
+          loop
+          onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
+          className="w-full"
+        >
+          {slides.map((slide, index) => (
+            <SwiperSlide key={slide.id}>
               <div
-                className="absolute inset-0 bg-center bg-no-repeat"
-                style={{
-                  backgroundImage: `url(${slide.img})`,
-                  backgroundSize: isMobile ? "contain" : "cover",
-                  backgroundPosition: "center",
-                }}
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+                className="relative h-[80vh] w-full bg-center bg-cover"
+                style={{ backgroundImage: `url(${slide.img})` }}
+              >
+                {activeSlide === index && (
+                  <motion.div
+                    className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
+                  >
+                    <h2 className="text-5xl font-bold mb-4 drop-shadow-lg">
+                      {slide.title}
+                    </h2>
+                    <p className="text-2xl drop-shadow">{slide.subtitle}</p>
+                  </motion.div>
+                )}
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      {/* Hero Section Mobile View */}
+      <div className="block md:hidden">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          loop
+          onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
+          className="w-full"
+        >
+          {slides.map((slide, index) => (
+            <SwiperSlide key={slide.id}>
+              <div className="relative h-[19vh] w-full bg-center bg-contain bg-no-repeat" style={{ backgroundImage: `url(${slide.img})` }}>
+                {activeSlide === index && (
+                  <motion.div
+                    className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-2"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1 }}
+                  >
+                    <h2 className="text-2xl font-bold mb-2 drop-shadow-lg">
+                      {slide.title}
+                    </h2>
+                    <p className="text-sm drop-shadow">{slide.subtitle}</p>
+                  </motion.div>
+                )}
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
               {/* Content */}
               <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 text-center text-white max-w-4xl mx-auto">
