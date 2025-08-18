@@ -59,7 +59,7 @@ export const uploadProduct = async (req, res) => {
       application,
       image: image1Url.secure_url,
       image2: image2Url?.secure_url || "",
-
+      status: "Active", // Default status
       materials: {
         sealRingFaces,
         seatFaces,
@@ -68,7 +68,6 @@ export const uploadProduct = async (req, res) => {
         bellowMoc,
         endFittingMoc,
       },
-
       operatingLimits: {
         shaftDia,
         pressure,
@@ -114,3 +113,30 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ message: "Failed to delete product" });
   }
 };
+
+// New: Update product status
+export const updateProductStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!["Active", "Inactive"].includes(status)) {
+    return res.status(400).json({ message: "Invalid status value" });
+  }
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json({ message: "Status updated", product: updatedProduct });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating status", error });
+  }
+};
+

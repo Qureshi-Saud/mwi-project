@@ -5,7 +5,8 @@ const productSchema = new mongoose.Schema({
   type: { type: String, required: true },
   application: { type: String, required: true },
   image: { type: String, required: true },
-  image2: { type: String }, // New field
+  image2: { type: String },
+  status: { type: String, enum: ["Active", "Inactive"], default: "Active" }, // Added status
   materials: {
     sealRingFaces: String,
     seatFaces: String,

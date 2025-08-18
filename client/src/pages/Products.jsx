@@ -98,7 +98,6 @@
 // }
 
 // export default Products;
-
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api";
@@ -110,9 +109,7 @@ const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
@@ -131,7 +128,9 @@ function Products() {
   useEffect(() => {
     api
       .get("/products")
-      .then((res) => setProducts(res.data))
+      .then((res) => {
+        setProducts(res.data.filter((p) => p.status === "Active"));
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -139,14 +138,13 @@ function Products() {
   useEffect(() => {
     const updateItemsPerPage = () => {
       if (window.innerWidth < 768) {
-        setItemsPerPage(15); // mobile
+        setItemsPerPage(15);
       } else if (window.innerWidth < 1024) {
-        setItemsPerPage(18); // tablet
+        setItemsPerPage(18);
       } else {
-        setItemsPerPage(20); // desktop
+        setItemsPerPage(20);
       }
     };
-
     updateItemsPerPage();
     window.addEventListener("resize", updateItemsPerPage);
     return () => window.removeEventListener("resize", updateItemsPerPage);
@@ -184,7 +182,6 @@ function Products() {
         style={{ backgroundImage: `url(${header})` }}
       >
         <div className="absolute inset-0 bg-blue-900 bg-opacity-70"></div>
-
         <motion.div
           className="relative z-10 max-w-3xl"
           initial={{ opacity: 0, y: -40 }}
@@ -239,7 +236,6 @@ function Products() {
                     </span>
                   </div>
                 </div>
-
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <span className="text-xs font-semibold text-blue-600 uppercase">
@@ -270,7 +266,6 @@ function Products() {
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center mt-10 space-x-2 flex-wrap">
-            {/* Prev Button */}
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
@@ -282,7 +277,6 @@ function Products() {
             >
               Prev
             </button>
-
             {Array.from({ length: totalPages }, (_, i) => i + 1)
               .filter((page) => {
                 if (page === 1 || page === totalPages) return true;
@@ -319,8 +313,6 @@ function Products() {
                   </button>
                 )
               )}
-
-            {/* Next Button */}
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
