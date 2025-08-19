@@ -157,7 +157,7 @@ function UploadProduct() {
           )}
 
           {/* Buttons */}
-          <div className="flex justify-between items-center pt-6 border-t">
+          <div className="flex justify-between items-center pt-6">
             {step > 0 && (
               <button
                 type="button"

@@ -120,7 +120,10 @@ function Home() {
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={slide.id}>
-              <div className="relative h-[19vh] w-full bg-center bg-contain bg-no-repeat" style={{ backgroundImage: `url(${slide.img})` }}>
+              <div
+                className="relative h-[19vh] w-full bg-center bg-contain bg-no-repeat"
+                style={{ backgroundImage: `url(${slide.img})` }}
+              >
                 {activeSlide === index && (
                   <motion.div
                     className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-2"
@@ -141,7 +144,7 @@ function Home() {
       </div>
 
       {/* Info Section */}
-      <section className="py-16 px-4 md:px-12 bg-white">
+      <section className="py-10 px-4 md:px-12 bg-white">
         <div className="max-w-screen-xl mx-auto grid md:grid-cols-2 gap-8 items-center">
           <div>
             <h3 className="text-blue-600 font-semibold text-sm">
@@ -200,7 +203,7 @@ function Home() {
       </section>
 
       {/* Our Products */}
-      <section className="py-16 px-4 md:px-12 bg-gray-50">
+      <section className="py-6 px-4 md:px-12 bg-gray-50">
         <div className="max-w-screen-xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-10">Our Products</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -233,11 +236,26 @@ function Home() {
               </div>
             ))}
           </div>
+
+          {/* More Products Button */}
+          <div className="flex justify-center mt-10">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              onClick={() => navigate("/products")}
+              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700 transition-colors"
+            >
+              More Products
+            </motion.button>
+          </div>
         </div>
       </section>
 
       {/* Industries Served */}
-      <section className="py-16 px-4 md:px-12">
+      <section className="py-2 px-4 md:px-12 pb-10">
         <div className="max-w-screen-xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-10">
             Industries We Serve

@@ -44,6 +44,7 @@ const ProductPage = () => {
 
   return (
     <div className="bg-white min-h-screen px-4 md:px-8 py-10 max-w-7xl mx-auto">
+      
       {/* Breadcrumb + Title */}
       <motion.div
         className="mb-14"
@@ -64,7 +65,7 @@ const ProductPage = () => {
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
           {product.name}
         </h1>
-        <p className="text-lg text-gray-600 max-w-2xl">
+        <p className="text-lg text-gray-600 leading-relaxed text-justify bg-gray-50 p-6 rounded-xl shadow-sm border w-full">
           {product.application}
         </p>
       </motion.div>

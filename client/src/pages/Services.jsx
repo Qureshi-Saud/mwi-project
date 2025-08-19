@@ -192,7 +192,7 @@ function Services() {
       </div>
       {/* Service Cards */}
       <motion.div
-        className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 py-5 px-4 md:px-6 max-w-screen-xl mx-auto"
+        className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 py-12 px-4 md:px-6 max-w-screen-xl mx-auto"
         variants={container}
         initial="hidden"
         whileInView="visible"
