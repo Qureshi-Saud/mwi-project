@@ -10,6 +10,9 @@ import {
   LogOut,
 } from "lucide-react";
 
+// Import logo from assets
+import logo from "../assets/logo.png"; // make sure your file is logo.png (or update extension)
+
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,13 +27,16 @@ function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const isActive = (path) =>
-    location.pathname === path ? "text-blue-600 font-semibold" : "text-gray-700";
+    location.pathname === path
+      ? "text-blue-600 font-semibold"
+      : "text-gray-700";
 
   const getPageTitle = () => {
     if (location.pathname === "/dashboard") return "Dashboard";
     if (location.pathname === "/upload") return "Upload Product";
     if (location.pathname === "/admin/enquiries") return "Inbox";
-    if (location.pathname.startsWith("/admin/enquiries/")) return "Enquiry Detail";
+    if (location.pathname.startsWith("/admin/enquiries/"))
+      return "Enquiry Detail";
     return "";
   };
 
@@ -40,7 +46,16 @@ function Navbar() {
       <nav className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg z-50 flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between px-4 py-4 border-b">
-            <h1 className="font-bold text-xl">Admin Panel</h1>
+            {/* Logo */}
+            <Link to="/dashboard" className="flex items-center space-x-2">
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-10 w-auto object-contain"
+              />
+            </Link>
+
+            {/* Mobile Menu Toggle */}
             <button
               className="md:hidden text-gray-700"
               onClick={toggleMenu}
@@ -106,7 +121,9 @@ function Navbar() {
       {/* Conditionally Render Title Bar */}
       {getPageTitle() && (
         <div className="ml-64 px-6 py-4 bg-gray-100 border-b shadow-sm sticky top-0 z-40">
-          <h1 className="text-2xl font-semibold text-gray-800">{getPageTitle()}</h1>
+          <h1 className="text-2xl font-semibold text-gray-800">
+            {getPageTitle()}
+          </h1>
         </div>
       )}
     </>

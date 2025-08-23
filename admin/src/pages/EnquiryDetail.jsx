@@ -197,85 +197,126 @@
 
 
 
-
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
-  Mail,
-  Phone,
-  Building2,
-  User,
-  MessageSquareText,
+  MailOpen,
+  Smartphone,
+  BriefcaseBusiness,
+  UserRound,
+  NotebookText,
   Reply,
-  FileText,
+  FileTextIcon,
 } from "lucide-react";
 
 function EnquiryDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [enquiry, setEnquiry] = useState(null);
 
+  // Fetch current enquiry
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/enquiries/${id}`)
       .then((res) => setEnquiry(res.data));
   }, [id]);
 
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        navigate("/admin/enquiries"); // Go back to inbox
+      }
+      if (e.key.toLowerCase() === "r") {
+        handleReply(); // Reply
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [enquiry, navigate]);
+
   if (!enquiry) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
-        <p className="text-gray-500 text-lg animate-pulse">Loading enquiry details...</p>
+        <p className="text-gray-500 text-lg animate-pulse">
+          Loading enquiry details...
+        </p>
       </div>
     );
   }
 
   const handleReply = () => {
-    const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${enquiry.email}&su=RE: ${enquiry.subject}&body=Hi ${enquiry.firstName},%0D%0A%0D%0A`;
+    const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${
+      enquiry.email
+    }&su=RE: ${enquiry.subject}&body=Hi ${enquiry.firstName},%0D%0A%0D%0A`;
     window.open(gmailURL, "_blank");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white py-12 px-6">
-      <h2 className="text-4xl font-bold text-gray-800 text-center mb-10 tracking-tight">
-        📩 Enquiry Overview
-      </h2>
-
-      <div className="max-w-3xl mx-auto space-y-6 text-gray-800 text-[17px] leading-relaxed">
-        <div className="grid grid-cols-[24px_auto] gap-3 items-start">
-          <User className="text-blue-600 w-5 h-5" />
-          <p><span className="font-semibold">Name:</span> {enquiry.firstName} {enquiry.lastName}</p>
-
-          <Mail className="text-emerald-600 w-5 h-5" />
-          <p><span className="font-semibold">Email:</span> {enquiry.email}</p>
-
-          <Phone className="text-yellow-600 w-5 h-5" />
-          <p><span className="font-semibold">Phone:</span> {enquiry.phone}</p>
-
-          {enquiry.companyName?.trim() !== "" && (
-            <>
-              <Building2 className="text-purple-600 w-5 h-5" />
-              <p><span className="font-semibold">Company:</span> {enquiry.companyName}</p>
-            </>
-          )}
-
-          <MessageSquareText className="text-pink-600 w-5 h-5" />
-          <p><span className="font-semibold">Subject:</span> {enquiry.subject}</p>
-
-          <FileText className="text-pink-600 w-5 h-5 mt-1" />
-          <p>
-            <span className="font-semibold">Message: </span>{" "}
-            <span className="whitespace-pre-wrap">{enquiry.message}</span>
-          </p>
+    <div className="bg-[#f1f3f4] min-h-screen py-8 px-4">
+      <div className="max-w-3xl mx-auto bg-white rounded-md p-6 shadow-sm relative text-sm">
+        {/* Top Navigation */}
+        <div className="max-w-3xl mx-auto flex justify-between items-center mb-8">
+          <button
+            onClick={() => navigate("/admin/enquiries")}
+            className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition"
+          >
+            ← Back to Inbox
+          </button>
         </div>
 
-        <div className="mt-10 text-center">
-          <button
-            onClick={handleReply}
-            className="inline-flex items-center gap-2 bg-blue-600 hover:scale-105 transition-transform text-white px-6 py-3 rounded-xl shadow-md"
-          >
-            <Reply size={18} />
-            Reply via Gmail
-          </button>
+        {/* Enquiry Content */}
+        <div className="max-w-3xl mx-auto space-y-6 text-gray-800 text-[17px] leading-relaxed">
+          <div className="grid grid-cols-[24px_auto] gap-3 items-start">
+            <UserRound className="w-5 h-5" />
+            <p>
+              <span className="font-semibold">Name:</span> {enquiry.firstName}{" "}
+              {enquiry.lastName}
+            </p>
+
+            <MailOpen className="w-5 h-5" />
+            <p>
+              <span className="font-semibold">Email:</span> {enquiry.email}
+            </p>
+
+            <Smartphone className="w-5 h-5" />
+            <p>
+              <span className="font-semibold">Phone:</span> {enquiry.phone}
+            </p>
+
+            {enquiry.companyName?.trim() !== "" && (
+              <>
+                <BriefcaseBusiness className="w-5 h-5" />
+                <p>
+                  <span className="font-semibold">Company:</span>{" "}
+                  {enquiry.companyName}
+                </p>
+              </>
+            )}
+
+            <NotebookText className="w-5 h-5" />
+            <p>
+              <span className="font-semibold">Subject:</span> {enquiry.subject}
+            </p>
+
+            <FileTextIcon className="w-5 h-5 mt-1" />
+            <p>
+              <span className="font-semibold">Message: </span>{" "}
+              <span className="whitespace-pre-wrap">{enquiry.message}</span>
+            </p>
+          </div>
+
+          <div className="mt-10 text-center">
+            <button
+              onClick={handleReply}
+              className="inline-flex items-center gap-2 bg-blue-600 hover:scale-105 transition-transform text-white px-6 py-3 rounded-xl shadow-md"
+            >
+              <Reply size={18} />
+              Reply via Gmail
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -125,71 +125,71 @@ function Services() {
       </motion.div>
 
       {/* Seal and Side Services */}
-      <div className="flex flex-wrap justify-center items-center px-4 md:px-10 gap-20 bg-gray-50 max-w-screen-xl mx-auto">
-        {/* Left Column */}
-        <motion.div
-          className="flex flex-col gap-8 items-center text-center"
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {leftItems.map((item, index) => (
-            <motion.div
-              key={index}
-              variants={slideFromLeft}
-              className="group flex flex-col items-center gap-3 text-xl font-semibold uppercase"
-            >
-              <span className="text-4xl">{item.icon}</span>
-              <span className="text-lg md:text-xl text-gray-800 max-w-[180px] group-hover:text-blue-600 group-hover:underline transition duration-300">
-                {item.text}
-              </span>
-            </motion.div>
-          ))}
-        </motion.div>
+<div className="flex flex-wrap justify-center items-center px-4 md:px-10 gap-14 bg-gray-50 max-w-screen-xl mx-auto">
+  {/* Left Column */}
+  <motion.div
+    className="flex flex-col gap-8 items-center text-center"
+    variants={container}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+  >
+    {leftItems.map((item, index) => (
+      <motion.div
+        key={index}
+        variants={slideFromLeft}
+        className="group flex flex-col items-center gap-3 text-xl font-semibold uppercase"
+      >
+        <span className="text-4xl">{item.icon}</span>
+        <span className="text-lg md:text-xl text-gray-800 max-w-[200px] group-hover:text-blue-600 group-hover:underline transition duration-300">
+          {item.text}
+        </span>
+      </motion.div>
+    ))}
+  </motion.div>
 
-        {/* Center Image */}
-        <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          whileHover={{ scale: 1.05, rotate: 1 }}
-          transition={{ duration: 0.6 }}
-          className="relative"
-        >
-          <div className="rounded-full border-8 border-blue-300 p-6 bg-white shadow-xl hover:shadow-blue-300 transition-shadow duration-300">
-            <img
-              src={Seal}
-              alt="Mechanical Seal"
-              className="w-full max-w-[360px] object-contain"
-            />
-          </div>
-        </motion.div>
+  {/* Center Image */}
+  <motion.div
+    variants={fadeInUp}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+    whileHover={{ scale: 1.05, rotate: 1 }}
+    transition={{ duration: 0.6 }}
+    className="relative"
+  >
+    <div className="rounded-full border-8 border-blue-300 p-6 bg-white shadow-xl hover:shadow-blue-300 transition-shadow duration-300">
+      <img
+        src={Seal}
+        alt="Mechanical Seal"
+        className="w-full max-w-[340px] object-contain"
+      />
+    </div>
+  </motion.div>
 
-        {/* Right Column */}
-        <motion.div
-          className="flex flex-col gap-8 items-center text-center"
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {rightItems.map((item, index) => (
-            <motion.div
-              key={index}
-              variants={slideFromRight}
-              className="group flex flex-col items-center gap-3 text-xl font-semibold uppercase"
-            >
-              <span className="text-4xl">{item.icon}</span>
-              <span className="text-lg md:text-xl text-gray-800 max-w-[200px] group-hover:text-blue-600 group-hover:underline transition duration-300">
-                {item.text}
-              </span>
-            </motion.div>
-          ))}
+  {/* Right Column */}
+  <motion.div
+    className="flex flex-col gap-8 items-center text-center"
+    variants={container}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+  >
+    {rightItems.map((item, index) => (
+      <motion.div
+        key={index}
+        variants={slideFromRight}
+        className="group flex flex-col items-center gap-3 text-xl font-semibold uppercase"
+      >
+        <span className="text-4xl">{item.icon}</span>
+        <span className="text-lg md:text-xl text-gray-800 max-w-[200px] group-hover:text-blue-600 group-hover:underline transition duration-300">
+          {item.text}
+        </span>
+      </motion.div>
+    ))}
+  </motion.div>
+</div>
 
-        </motion.div>
-      </div>
       {/* Service Cards */}
       <motion.div
         className="grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-12 py-12 px-4 md:px-6 max-w-screen-xl mx-auto"
